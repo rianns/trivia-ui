@@ -1,6 +1,6 @@
 import Trivia from "../Trivia";
 
-const Trivias = () => {
+const TriviaList = () => {
 	return (
 		<div>
 			<Trivia />
@@ -11,4 +11,4 @@ const Trivias = () => {
 		</div>
 	);
 };
-export default Trivias;
+export default TriviaList;
