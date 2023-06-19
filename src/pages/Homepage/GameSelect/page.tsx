@@ -1,10 +1,7 @@
 import GameSelectForm from "./GameSelectForm";
 
 const GameSelect = () => {
-  const handleSubmit = (amount: number, difficulty: string) => {
-    console.log("Amount:", amount);
-    console.log("Difficulty:", difficulty);
-  };
+  const handleSubmit = (amount: number, difficulty: string) => {};
 
   return (
     <>

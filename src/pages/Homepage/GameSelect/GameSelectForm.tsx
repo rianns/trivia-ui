@@ -1,4 +1,5 @@
 import { useGameCtx } from "@/contexts/GameCtx";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/navigation";
 
 interface GameSelectFormProps {
@@ -28,10 +29,10 @@ const GameSelectForm = ({ onSubmit }: GameSelectFormProps) => {
         </button>
         <button
           className="border border-white p-5 m-2"
-          onClick={() => setDifficulty("normal")}
+          onClick={() => setDifficulty("medium")}
           type="button"
         >
-          Normal
+          Medium
         </button>
         <button
           className="border border-white p-5 m-2"
@@ -49,3 +50,14 @@ const GameSelectForm = ({ onSubmit }: GameSelectFormProps) => {
 };
 
 export default GameSelectForm;
+
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const { amount, difficulty } = useGameCtx();
+
+//   return {
+//     props: {
+//       amount,
+//       difficulty,
+//     },
+//   };
+// };

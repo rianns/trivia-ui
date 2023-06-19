@@ -27,23 +27,24 @@ export class Trivias {
 		difficulty: string
 	): Promise<Trivia[]> {
 		const res = await fetch(
-			`https://opentdb.com/api.php?${amount}=10&difficulty=${difficulty}`
+			`https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}`
 		);
+
 		const data = await res.json();
-		return data as Trivia[];
+		return data.results as Trivia[];
 	}
 	
 	
 }
 
-export async function getGameSettings(ctx: GetServerSidePropsContext) {
-	const { amount, difficulty } = ctx.query;
+// export async function getGameSettings(ctx: GetServerSidePropsContext) {
+// 	const { amount, difficulty } = ctx.query;
 
-	const trivias = await Trivias.get(Number(amount), String(difficulty));
+// 	const trivias = await Trivias.get(Number(amount), String(difficulty));
 
-	return {
-		props: {
-			trivias,
-		},
-	};
-}
+// 	return {
+// 		props: {
+// 			trivias,
+// 		},
+// 	};
+// }

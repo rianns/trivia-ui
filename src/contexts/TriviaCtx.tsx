@@ -12,7 +12,11 @@ const TriviaCtx = createContext<TriviaCtxProps>({
   setTrivias: () => {},
 });
 
-export const TriviaCtxProvider = ({ children }) => {
+export const TriviaCtxProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [trivias, setTrivias] = useState<Trivia[]>([]);
 
   const values: TriviaCtxProps = {

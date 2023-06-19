@@ -1,5 +1,4 @@
 import { GameCtxProvider } from "@/contexts/GameCtx";
-import { TriviaCtxProvider } from "@/contexts/TriviaCtx";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -18,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GameCtxProvider>
-          <TriviaCtxProvider>{children}</TriviaCtxProvider>
-        </GameCtxProvider>
+        <GameCtxProvider>{children}</GameCtxProvider>
       </body>
     </html>
   );
