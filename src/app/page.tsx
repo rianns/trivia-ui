@@ -1,6 +1,5 @@
 "use client";
 import HomePage from "@/pages/Homepage/page";
-import { useEffect } from "react";
 
 export default function Home() {
   return (

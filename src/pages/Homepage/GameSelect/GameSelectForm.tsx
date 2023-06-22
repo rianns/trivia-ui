@@ -1,42 +1,58 @@
 import { useGameCtx } from "@/contexts/GameCtx";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface GameSelectFormProps {
   onSubmit: (amount: number, difficulty: string) => void;
 }
 const GameSelectForm = ({ onSubmit }: GameSelectFormProps) => {
+  const [activeBtn, setActiveBtn] = useState<boolean>(false);
+
   // future feature: allow users to change number of trivias
   const { amount, difficulty, setAmount, setDifficulty } = useGameCtx();
 
-  const router = useRouter();
+  const handleClick = (diff: string) => {
+    setDifficulty(diff);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(amount, difficulty);
-    router.push("/Game");
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col flex-auto">
-      <div>
+      <div className="flex justify-center">
         <button
-          className="border border-white p-5 m-2"
-          onClick={() => setDifficulty("easy")}
+          className={`border border-white p-5 m-2 ${
+            difficulty === "easy"
+              ? "bg-white text-black"
+              : "bg-black text-white"
+          }`}
+          onClick={() => handleClick("easy")}
           type="button"
         >
           Easy
         </button>
         <button
-          className="border border-white p-5 m-2"
-          onClick={() => setDifficulty("medium")}
+          className={`border border-white p-5 m-2 ${
+            difficulty === "medium"
+              ? "bg-white text-black"
+              : "bg-black text-white"
+          }`}
+          onClick={() => handleClick("medium")}
           type="button"
         >
           Medium
         </button>
         <button
-          className="border border-white p-5 m-2"
-          onClick={() => setDifficulty("hard")}
+          className={`border border-white p-5 m-2 ${
+            difficulty === "hard"
+              ? "bg-white text-black"
+              : "bg-black text-white"
+          }`}
+          onClick={() => handleClick("hard")}
           type="button"
         >
           Hard

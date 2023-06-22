@@ -1,16 +1,23 @@
 import { ChangeEventHandler } from "react";
 
-type AnswersProps = {
-  choices: string[];
-  selected: string;
+type AnswersProps<T> = {
+  choices: T[];
+  selected: string | T;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-const Answers = ({ choices, selected, onChange }: AnswersProps) => {
+const Answers = <T extends string[]>({
+  choices,
+  selected,
+  onChange,
+}: AnswersProps<T>) => {
   return (
-    <div>
-      {choices.map((choice) => (
-        <label key={choice}>
+    <div className="flex flex-col w-full">
+      {choices.map((choice, index) => (
+        <label
+          key={index}
+          className="flex text-white items-center border border-white p-3 w-full m-1 hover:bg-white hover:text-black"
+        >
           <input
             type="radio"
             name=""
@@ -18,7 +25,7 @@ const Answers = ({ choices, selected, onChange }: AnswersProps) => {
             checked={choice === selected}
             onChange={onChange}
           />
-          {choice}
+          <div className="pl-2">{choice}</div>
         </label>
       ))}
     </div>

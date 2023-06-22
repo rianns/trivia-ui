@@ -1,27 +1,47 @@
 import { Trivia } from "@/services/trivias";
 import Answers from "../Answers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { addOrUpdateAnswer } from "@/utils/saveAnswer";
+import { SelectedAnswers } from "@/pages/Homepage/Game/page";
 
-const TriviaCard = ({ trivia }: Trivia) => {
-  const [selected, setSelected] = useState("");
+interface TriviaCardProps<T> {
+  trivia: Trivia<T>;
+  answers: SelectedAnswers[];
+  setAnswers: (answers: SelectedAnswers[]) => void;
+  triviaId: number;
+}
+
+const TriviaCard = <T extends string[]>({
+  trivia,
+  answers,
+  setAnswers,
+  triviaId,
+}: TriviaCardProps<T>) => {
+  const [selected, setSelected] = useState<string>("");
 
   const { incorrect_answers, correct_answer, ...rest } = trivia;
-  const choices = Object.values({ ...incorrect_answers, correct_answer });
+  const choices: T[] = Object.values<T>({
+    ...incorrect_answers,
+    correct_answer,
+  });
 
-  // console.log(choices);
-  console.log(choices);
-  console.log("rerender");
-
-  console.log(selected);
+  useEffect(() => {
+    addOrUpdateAnswer(triviaId, selected, answers);
+    setAnswers([...answers]);
+  }, [triviaId, selected]);
 
   return (
-    <div className="p-4 border border-black">
-      <div>{trivia.question}</div>
-      <Answers
-        choices={choices}
-        selected={selected}
-        onChange={(e) => setSelected(e.target.value)}
-      />
+    <div className="p-4 border border-white m-5">
+      <div className="flex p-20 justify-center items-center">
+        {trivia.question}
+      </div>
+      <div className="flex w-full">
+        <Answers
+          choices={choices}
+          selected={selected}
+          onChange={(e) => setSelected(e.target.value)}
+        />
+      </div>
     </div>
   );
 };

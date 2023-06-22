@@ -2,24 +2,24 @@
 import { Trivia } from "@/services/trivias";
 import { createContext, useContext, useState } from "react";
 
-interface TriviaCtxProps {
-  trivias: Trivia[];
-  setTrivias: (data: Trivia[]) => void;
+interface TriviaCtxProps<T> {
+  trivias: Trivia<T>[];
+  setTrivias: (data: Trivia<T>[]) => void;
 }
 
-const TriviaCtx = createContext<TriviaCtxProps>({
+const TriviaCtx = createContext<TriviaCtxProps<any>>({
   trivias: [],
   setTrivias: () => {},
 });
 
-export const TriviaCtxProvider = ({
+export const TriviaCtxProvider = <T,>({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [trivias, setTrivias] = useState<Trivia[]>([]);
+  const [trivias, setTrivias] = useState<Trivia<T>[]>([]);
 
-  const values: TriviaCtxProps = {
+  const values: TriviaCtxProps<T> = {
     trivias,
     setTrivias,
   };
@@ -27,7 +27,7 @@ export const TriviaCtxProvider = ({
   return <TriviaCtx.Provider value={values}>{children}</TriviaCtx.Provider>;
 };
 
-export const useTriviaCtx = (): TriviaCtxProps => {
+export const useTriviaCtx = <T,>(): TriviaCtxProps<T> => {
   const context = useContext(TriviaCtx);
   if (!context) {
     throw new Error("error");
