@@ -4,11 +4,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface GameSelectFormProps {
-  onSubmit: (amount: number, difficulty: string) => void;
+  onSubmit: () => void;
 }
 const GameSelectForm = ({ onSubmit }: GameSelectFormProps) => {
-  const [activeBtn, setActiveBtn] = useState<boolean>(false);
-
   // future feature: allow users to change number of trivias
   const { amount, difficulty, setAmount, setDifficulty } = useGameCtx();
 
@@ -18,7 +16,7 @@ const GameSelectForm = ({ onSubmit }: GameSelectFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(amount, difficulty);
+    onSubmit();
   };
 
   return (

@@ -6,8 +6,11 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import GameSubmit from "./GameSubmitForm";
+import { checkAnswer } from "@/utils/checkAnswer";
+import { GameProps } from "../page";
 
-interface CorrectAnswers {
+// looks similar to selected, possible refactor to be the same interface??
+export interface CorrectAnswers {
   triviaId: number;
   correct_answer: string;
 }
@@ -17,14 +20,18 @@ export interface SelectedAnswers {
   selected_answer: string;
 }
 
-const Game = <T extends string>() => {
+const Game = <T extends string>({
+  trivias,
+  setTrivias,
+  setScore,
+  setGameShown,
+}: GameProps<T>) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [trivias, setTrivias] = useState<Trivia<T>[]>([]);
-  const [score, setScore] = useState<number>(0);
   const [answers, setAnswers] = useState<SelectedAnswers[]>([]);
-  // const [correct, setCorrect] = useState<correctAnswers[]>([]);
 
   const { amount, difficulty, ...rest } = useGameCtx();
+
+  const correct: CorrectAnswers[] = [];
 
   useEffect(() => {
     const getData = async () => {
@@ -46,8 +53,6 @@ const Game = <T extends string>() => {
 
   // assign correct answer to a key value pair for checking
 
-  const correct: CorrectAnswers[] = [];
-
   trivias.map((trivia, i) => {
     const corr: CorrectAnswers = {
       triviaId: i,
@@ -56,13 +61,13 @@ const Game = <T extends string>() => {
     correct.push(corr);
   });
 
-  console.log(answers);
-
-  console.log(correct);
-
   // compare selected answers to correct answers, if correct add to score
 
-  // console.log(correct);
+  const handleSubmit = () => {
+    const add = checkAnswer(answers, correct);
+    setGameShown(false);
+    setScore(add);
+  };
 
   return (
     !loading && (
@@ -79,7 +84,7 @@ const Game = <T extends string>() => {
           ))}
         </div>
         <div className="flex justify-center items-center">
-          <GameSubmit />
+          <GameSubmit onSubmit={handleSubmit} />
         </div>
       </div>
     )
